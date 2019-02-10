@@ -34,8 +34,9 @@ function browserSync(done) {
 }
 
 function transpileJs(done){
-  gulp.src('src/components/js/app.jsx')
+  return gulp.src('src/components/js/app.jsx')
   .pipe(react())
+  .pipe(rename('app.js'))
   .pipe(gulp.dest('js'))
   .pipe(browsersync.stream());
   done();
