@@ -1,6 +1,6 @@
 // React Tree House Course
-	const title = React.createElement("h1", null, "Pizza Time");
-	const des = React.createElement("p", null, "Let's Eat");
+	const title = <h1>Pizza Time</h1>;
+	const des = <p>Let's Eat</p>;
 
 	const header = React.createElement(
 		'header',

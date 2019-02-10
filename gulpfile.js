@@ -5,8 +5,7 @@ const sass         = require('gulp-sass');
 const browsersync  = require('browser-sync').create();
 const rename       = require('gulp-rename');
 const sourcemaps   = require('gulp-sourcemaps')
-const babel = require('gulp-babel');
- 
+const react        = require('gulp-react');
 
 function scss(done){
   gulp.src('src/components/sass/styles.scss')
@@ -34,6 +33,14 @@ function browserSync(done) {
   done();
 }
 
+function transpileJs(done){
+  gulp.src('src/components/js/app.jsx')
+  .pipe(react())
+  .pipe(gulp.dest('js'))
+  .pipe(browsersync.stream());
+  done();
+}
+
 // BrowserSync Reload
 function browserSyncReload(done) {
   browsersync.reload();
@@ -43,6 +50,7 @@ function browserSyncReload(done) {
 // Watch files
 function watchFiles() {
   gulp.watch("src/components/sass/*.scss", scss);
+  gulp.watch("src/components/js/app.jsx", transpileJs);
   gulp.watch("*.html", browserSyncReload);
 }
 
