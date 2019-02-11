@@ -49,19 +49,30 @@
 		/* Method to increment score */
 		incrementScore(){
 			//let react know state is changing, and it needs to re-render
-			this.setState({
-				score: this.state.score + 1
+			this.setState(prevState => {
+				return {
+						score:prevState.score + 1
+					};
 			});
+
+			/* This approach is asynchronous 
+			this.setState({score: this.state.score + 1});
+			*/
 		}
+
 
 		/* Method to decrement score */
 		decrementScore(){
+
 			if(this.state.score > 0){
-				this.setState({
-					score: this.state.score - 1
+				this.setState(prevState => {
+					return {
+							score:prevState.score - 1
+						};
 				});
 			}
 		}
+
 
 		render(){
 			return (
