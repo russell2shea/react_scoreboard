@@ -6,6 +6,7 @@ const browsersync  = require('browser-sync').create();
 const rename       = require('gulp-rename');
 const sourcemaps   = require('gulp-sourcemaps')
 const react        = require('gulp-react');
+const babel        = require('gulp-babel');
 
 function scss(done){
   gulp.src('src/components/sass/styles.scss')
@@ -35,7 +36,8 @@ function browserSync(done) {
 
 function transpileJs(done){
   return gulp.src('src/components/js/app.jsx')
-  .pipe(react())
+  //.pipe(react())
+  .pipe(babel())
   .pipe(rename('app.js'))
   .pipe(gulp.dest('js'))
   .pipe(browsersync.stream());

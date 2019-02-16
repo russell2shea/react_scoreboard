@@ -1,30 +1,5 @@
 // React Tree House Course
 	
-	// Array of players
-	const players =[
-	  {
-	    name: "Guil",
-	    score: 50, 
-	    id: 1
-	  },
-	  {
-	    name: "Treasure",
-	    score: 85,
-	    id: 2
-	  },
-	  {
-	    name: "Ashley",
-	    score: 95,
-	    id: 3
-	  },
-	  {
-	    name: "James",
-	    score: 80,
-	    id: 4
-	  }
-	]
-
-
 	// React components are required to have a capital letter to start
 	const Header = (props) => {
 		console.log(props);
@@ -49,11 +24,10 @@
 		/* Method to increment score */
 		incrementScore(){
 			//let react know state is changing, and it needs to re-render
-			this.setState(prevState => {
-				return {
-						score:prevState.score + 1
-					};
-			});
+			this.setState(prevState => ({
+				score:prevState.score + 1
+
+			}));
 
 			/* This approach is asynchronous 
 			this.setState({score: this.state.score + 1});
@@ -65,11 +39,9 @@
 		decrementScore(){
 
 			if(this.state.score > 0){
-				this.setState(prevState => {
-					return {
-							score:prevState.score - 1
-						};
-				});
+				this.setState(prevState => ({
+					score:prevState.score - 1
+				}));
 			}
 		}
 
@@ -92,6 +64,7 @@
 		return (
 			<div className="player">
 				<span className="player-name">
+					<button className="remove-player" onClick={ () => props.removePlayer(props.id)}>✖</button>
 					{props.name}
 				</span>
 
@@ -102,36 +75,84 @@
 	}
 
 	// Compose all components together
-	const App = (props) => {
-		return (
-			<div className="scoreboard">
-				<Header 
-					title="Scoreboard" 
-					totalPlayers={props.initialPlayers.length} 
-				/>
+	class App extends React.Component {
 
-				{/* Players list. Interate over players array */}
-				{props.initialPlayers.map(
-					player => 
 
-					<Player 
-						name={player.name}
-						key={player.id.toString()}
+		constructor() {
+			super()
+			this.state = {
+				players: [
+					  {
+					    name: "Guil",
+					    id: 1
+					  },
+					  {
+					    name: "Treasure",
+					    id: 2
+					  },
+					  {
+					    name: "Ashley",
+					    id: 3
+					  },
+					  {
+					    name: "James",
+					    id: 4
+					  }
+				]
+			};
+		}
+
+		handelRemovePlayer = (id) => {
+
+			this.setState(prevState =>{
+				return{
+					players: prevState.players.filter(p => p.id !== id)
+				}
+			});
+
+/*
+			console.log(this);
+
+			this.setState(prevState => ({
+				players: prevState.players.filter(p => p.id !== id)
+			}));
+*/
+		}
+
+		render(){
+			return (
+				<div className="scoreboard">
+					<Header 
+						title="Scoreboard" 
+						totalPlayers={this.state.players.length} 
 					/>
-				
-				)}
+
+					{/* Players list. Interate over players array */}
+					{this.state.players.map(
+						player => 
+
+						<Player 
+							name={player.name}
+							id={player.id}
+							key={player.id.toString()}
+							removePlayer={this.handelRemovePlayer}
+						/>
+					
+					)}
 
 
-			</div>
-		);
+				</div>
+			);
+		}
+
+
+
 	}
 
 	// Render Root level component to the Dom
 	ReactDOM.render(
 		// Can self close since this has no children
-		<App 
-			initialPlayers={players}
-		/>,
+		<App />,
 
 		//Mount into the container ID 
 		document.getElementById('container')
